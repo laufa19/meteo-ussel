@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>🌡 Dashboard Météo – Ussel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #111827;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #38bdf8;
+      --border: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #0b1220, #0a1020);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .link {
+      display: inline-block;
+      margin-top: 10px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .iframe-wrapper {
+      margin-top: 20px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    iframe {
+      width: 100%;
+      height: 650px;
+      border: none;
+      background: #000;
+    }
+
+    footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>🌤 Station météo – Ussel</h1>
+    <p>Dashboard personnel • données temps réel</p>
+  </header>
+
+  <div class="container">
+
+    <div class="grid">
+
+      <div class="card">
+        <h2>📍 Station</h2>
+        <p>IUSSEL11 – Weather Underground</p>
+        <a class="link"
+           href="https://www.wunderground.com/dashboard/pws/IUSSEL11"
+           target="_blank">
+          Ouvrir sur Wunderground →
+        </a>
+      </div>
+
+      <div class="card">
+        <h2>📈 Graphiques</h2>
+        <p>Température, vent, pluie, pression</p>
+        <a class="link"
+           href="https://www.wunderground.com/dashboard/pws/IUSSEL11/graph"
+           target="_blank">
+          Voir les graphiques →
+        </a>
+      </div>
+
+      <div class="card">
+        <h2>⏱ Mise à jour</h2>
+        <p>Données actualisées automatiquement</p>
+        <p>Pas de date figée</p>
+      </div>
+
+    </div>
+
+    <div class="iframe-wrapper">
+      <iframe
+        src="https://www.wunderground.com/dashboard/pws/IUSSEL11"
+        loading="lazy">
+      </iframe>
+    </div>
+
+  </div>
+
+  <footer>
+    Dashboard perso • GitHub Pages • © 2025
+  </footer>
+
+</body>
+</html>
