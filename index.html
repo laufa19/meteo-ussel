@@ -3,53 +3,107 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Météo maison</title>
+<title>Météo Bresser</title>
+
 <style>
-  body {
-    background:#0f1220;
-    color:#e9ecff;
-    font-family:system-ui, sans-serif;
-    text-align:center;
-    padding:20px;
-  }
-  .card {
-    max-width:400px;
-    margin:auto;
-    padding:20px;
-    background:#161a2e;
-    border-radius:16px;
-  }
-  .temp {
-    font-size:48px;
-    margin:20px 0;
-  }
+body {
+  background:#0f1220;
+  color:#e9ecff;
+  font-family:system-ui, sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.card {
+  background:#161a2e;
+  padding:20px;
+  border-radius:16px;
+  text-align:center;
+  width:200px;
+}
+
+.temp {
+  font-size:32px;
+  margin-bottom:10px;
+}
+
+/* Thermomètre */
+.thermo {
+  position:relative;
+  width:40px;
+  height:200px;
+  margin:20px auto;
+  background:#0a0d1a;
+  border-radius:20px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.2);
+}
+
+.fill {
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:0%;
+  background:blue;
+  transition: height 0.8s ease, background-color 0.8s ease;
+}
 </style>
 </head>
+
 <body>
 
 <div class="card">
-  <h1>🌦️ Météo maison</h1>
   <div class="temp">
     <span id="temp">--</span> °C
   </div>
+
+  <div class="thermo">
+    <div id="fill" class="fill"></div>
+  </div>
+
   <div id="status">Connexion…</div>
 </div>
 
 <script>
-const ESP_IP = "http://192.168.4.1"; // ou IP STA si dispo
+const ESP_URL = "http://bressermeteo.local"; // ou IP
+
+const T_MIN = -30;
+const T_MAX = 45;
+
+function colorFromTemp(t) {
+  if (t <= -15) return "rgb(0,0,120)";
+  if (t <= 8)   return "rgb(0,0,255)";
+  if (t <= 16)  return "rgb(255,220,0)";
+  if (t < 25)   return "rgb(0,180,0)";
+  return              "rgb(180,0,0)";
+}
 
 async function update() {
   try {
-    const r = await fetch(`${ESP_IP}/meteo`);
+    const r = await fetch(`${ESP_URL}/meteo`);
     const j = await r.json();
-    document.getElementById("temp").textContent = j.temp_ext.toFixed(1);
+
+    const t = j.temp_ext;
+    document.getElementById("temp").textContent = t.toFixed(1);
+
+    const ratio = Math.min(
+      1,
+      Math.max(0, (t - T_MIN) / (T_MAX - T_MIN))
+    );
+
+    const fill = document.getElementById("fill");
+    fill.style.height = (ratio * 100) + "%";
+    fill.style.backgroundColor = colorFromTemp(t);
+
     document.getElementById("status").textContent = "✅ connecté";
-  } catch(e) {
+  } catch (e) {
     document.getElementById("status").textContent = "❌ hors ligne";
   }
 }
 
-setInterval(update, 2000);
+setInterval(update, 1000);
 update();
 </script>
 
